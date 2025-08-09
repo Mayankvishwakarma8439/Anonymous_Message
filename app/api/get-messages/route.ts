@@ -4,6 +4,7 @@ import UserModel from "@/model/User";
 import connectDb from "@/lib/dbConnect";
 import { authoptions } from "../auth/[...nextauth]/options";
 import mongoose from "mongoose";
+import { success } from "zod";
 
 export async function GET(req: Request) {
   await connectDb();
@@ -24,7 +25,7 @@ export async function GET(req: Request) {
   try {
     const user = await UserModel.aggregate([
       {
-        $match: { id: userID },
+        $match: { _id: userID },
       },
       {
         $unwind: "$messages",
@@ -40,7 +41,7 @@ export async function GET(req: Request) {
       return Response.json(
         {
           success: false,
-          message: "User not found",
+          messages: []
         },
         {
           status: 404,
@@ -56,5 +57,13 @@ export async function GET(req: Request) {
         status: 200,
       }
     );
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    return Response.json({
+      success:false,
+      message: "Unexpected error occurred while fetching messages"
+    },{
+      status:500
+    })
+  }
 }

@@ -43,9 +43,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-body {
-  padding: 1rem;
-}
+
 
 :root {
   --radius: 0.625rem;

@@ -17,9 +17,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <AuthProvider>
-        <body>
+        <body className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-indigo-900 text-white">
           <Navbar></Navbar>{children}
+          <footer className="w-full py-4 text-center text-sm text-purple-200 border-t border-white/10 mt-10">
+        © {new Date().getFullYear()} MysteryMessage. All rights reserved.
+      </footer>
             <Toaster />
+            
         </body>
       </AuthProvider>
     </html>

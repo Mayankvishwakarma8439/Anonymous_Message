@@ -107,7 +107,7 @@ const page = () => {
                         field.onChange(e);
                         setDebouncedUsername(e.target.value);
                       }}
-                      className="bg-white/20 border border-white/30 text-white placeholder-white/60 focus:ring-2 focus:ring-purple-500"
+                      className="bg-white/20 border border-white/30 text-white !placeholder-white/60 focus:ring-2 focus:ring-purple-500"
                     />
                   </FormControl>
                   {isCheckingUsername && (
@@ -137,7 +137,7 @@ const page = () => {
                     <Input
                       placeholder="Email"
                       {...field}
-                      className="bg-white/20 border border-white/30 text-white placeholder-white/60 focus:ring-2 focus:ring-purple-500"
+                      className="bg-white/20 border border-white/30 text-white !placeholder-white/60 focus:ring-2 focus:ring-purple-500"
                     />
                   </FormControl>
                   <FormMessage className="text-red-300" />
@@ -156,7 +156,7 @@ const page = () => {
                       type="password"
                       placeholder="Password"
                       {...field}
-                      className="bg-white/20 border border-white/30 text-white placeholder-white/60 focus:ring-2 focus:ring-purple-500"
+                      className="bg-white/20 border border-white/30 text-white !placeholder-white/60 focus:ring-2 focus:ring-purple-500"
                     />
                   </FormControl>
                   <FormMessage className="text-red-300" />
