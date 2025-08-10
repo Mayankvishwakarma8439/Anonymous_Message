@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { Card,CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -21,10 +22,13 @@ import { messageSchema } from "@/schemas/messageSchema";
 import { useParams } from "next/navigation";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
+import suggestedMessages from "@/data/suggested-messages.json"
 
 export default function Page() {
   const [messageErrorMessage, setMessageErrorMessage] = useState("");
   const [isSendingMessage, setIsSendingMessage] = useState(false);
+  const [startIndex, setStartIndex] = useState(0);
+ 
 
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
@@ -56,6 +60,15 @@ export default function Page() {
       setIsSendingMessage(false);
     }
   }
+  
+  const handleMessageClick = (message: string) => {
+   form.setValue('content',message,{shouldValidate:true})
+  };
+   const nextMessages = () => {
+    setStartIndex((prev) => (prev + 3) % suggestedMessages.length);
+  };
+
+  const displayedMessages = suggestedMessages.slice(startIndex, startIndex + 3);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-indigo-900 p-6 pt-24">
@@ -83,8 +96,11 @@ export default function Page() {
                       {...field}
                       onChange={(e) => {
                         setMessageErrorMessage("");
+                      
                         field.onChange(e);
-                      }}
+                      }
+                    }
+                    value={field.value}
                     />
                   </FormControl>
                   <FormDescription>
@@ -105,6 +121,42 @@ export default function Page() {
             </Button>
           </form>
         </Form>
+
+ <div className="relative w-[90%] mx-auto flex flex-col items-center p-6 pb-15 space-y-6">
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-900 via-purple-800 to-violet-900" />
+      <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.05),transparent_50%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.04),transparent_50%)] pointer-events-none" />
+
+      <div className="relative z-10 flex flex-col items-center space-y-6 w-full">
+        <div className="flex justify-between items-center w-full">
+          <h2 className="text-lg font-bold text-yellow-400">
+            Click on any message below to select it.
+          </h2>
+          <Button
+            onClick={nextMessages}
+            className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold shadow-lg hover:shadow-xl transition"
+          >
+            Suggest Messages
+          </Button>
+        </div>
+
+        <div className="space-y-3 w-full">
+          {displayedMessages.map((msg, idx) => (
+            <Card
+              key={idx}
+              onClick={() => handleMessageClick(msg)}
+              role="button"
+              tabIndex={0}
+              
+              className="w-full cursor-pointer bg-white/10 backdrop-blur-md border border-white/20 rounded-lg shadow hover:bg-white/20 transition active:scale-95"
+            >
+              <CardContent className="p-4 text-white font-semibold">
+                {msg}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </div>
       </div>
     </div>
   );

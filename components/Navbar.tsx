@@ -12,12 +12,12 @@ const Navbar = () => {
     <nav className="bg-gradient-to-r from-indigo-950 via-purple-900 to-indigo-900 text-white shadow-xl border-b border-white/10">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center py-6 md:py-8 px-6 min-h-[90px]">
         
-        <a
+        <Link
           className="text-2xl font-extrabold tracking-wide text-yellow-400 hover:text-yellow-300 transition duration-200 mb-4 md:mb-0"
-          href="#"
+          href="/home"
         >
           Mystery Message
-        </a>
+        </Link>
 
        
         {session ? (
